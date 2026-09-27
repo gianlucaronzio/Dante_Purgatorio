@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Il Purgatorio di Dante — I sei canti fondamentali</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --parchment:#f4ecd8; --parchment2:#ece0c4; --ink:#3a2e1f; --ink-soft:#5c4a35;
+  --gold:#a8842f; --gold-deep:#8a6a1f; --line:#d8c79c; --card:#faf5e8; --green:#3f6b3f; --red:#8b3a3a;
+  box-sizing:border-box;
+}
+*{box-sizing:border-box;}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+body{
+  margin:0; background:var(--parchment); color:var(--ink);
+  font-family:'Inter',sans-serif; line-height:1.55;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  background-image:radial-gradient(circle at 20% 10%, #efe4c8 0%, transparent 40%), radial-gradient(circle at 90% 80%, #efe4c8 0%, transparent 40%);
+}
+h1,h2,h3,h4{font-family:'Cormorant Garamond',serif; color:var(--gold-deep); margin:0 0 .4em;}
+header.top{
+  position:sticky; top:0; z-index:20; background:linear-gradient(180deg,#3a2e1f,#2c2316);
+  padding:14px 16px calc(10px + env(safe-area-inset-top,0px));
+  border-bottom:3px solid var(--gold); color:var(--parchment);
+}
+header.top h1{color:#f4ecd8; font-size:1.5rem; margin:0;}
+header.top p{margin:2px 0 0; font-size:.8rem; color:#d8c79c;}
+nav.tabs{
+  display:flex; gap:6px; overflow-x:auto; padding:10px 16px; background:#efe2c1;
+  border-bottom:2px solid var(--line); position:sticky; top:0; z-index:15;
+}
+nav.tabs button{
+  flex:none; border:1px solid var(--gold); background:var(--card); color:var(--gold-deep);
+  font-family:'Inter',sans-serif; font-weight:600; font-size:.82rem; padding:8px 14px;
+  border-radius:20px; cursor:pointer; white-space:nowrap; transition:.15s;
+}
+nav.tabs button.active{background:var(--gold); color:#fff;}
+main{max-width:900px; margin:0 auto; padding:20px 16px 60px;}
+section.view{display:none;}
+section.view.active{display:block; animation:fade .25s ease;}
+@keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
+.card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin-bottom:18px; box-shadow:0 2px 6px rgba(60,45,20,.08);}
+.links3{display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:10px; margin:10px 0;}
+.links3 a{
+  display:block; text-align:center; background:#fff; border:1px solid var(--gold); color:var(--gold-deep);
+  text-decoration:none; font-weight:600; font-size:.85rem; padding:10px 8px; border-radius:8px; transition:.15s;
+}
+.links3 a:hover{background:var(--gold); color:#fff;}
+ul.guida{padding-left:1.2em; margin:8px 0;}
+ul.guida li{margin-bottom:6px;}
+.badge{display:inline-block; background:var(--gold); color:#fff; font-size:.72rem; font-weight:700; padding:2px 9px; border-radius:10px; letter-spacing:.03em; margin-bottom:8px;}
+.jumprow{display:flex; flex-wrap:wrap; gap:8px; margin:14px 0;}
+.jumprow button{border:1px solid var(--line); background:#fff; color:var(--ink-soft); padding:6px 12px; border-radius:16px; font-size:.78rem; cursor:pointer;}
+.jumprow button.current{background:var(--ink); color:#fff; border-color:var(--ink);}
+.quiz-item{border-top:1px dashed var(--line); padding:12px 0;}
+.quiz-item:first-child{border-top:none;}
+.quiz-item p.q{font-weight:600; margin:0 0 8px;}
+.opts{display:grid; gap:6px; margin-bottom:8px;}
+.opt{background:#fff; border:1px solid var(--line); border-radius:8px; padding:8px 10px; font-size:.9rem; cursor:pointer;}
+.opt.correct{border-color:var(--green); background:#eaf3ea; font-weight:600;}
+.opt.wrong{border-color:var(--red); background:#f6e9e9;}
+.reveal-btn{background:none; border:1px solid var(--gold-deep); color:var(--gold-deep); font-size:.78rem; padding:5px 12px; border-radius:14px; cursor:pointer;}
+.note{font-size:.85rem; color:var(--ink-soft); margin-top:6px; display:none;}
+.note.show{display:block;}
+.schema{display:flex; flex-direction:column-reverse; gap:6px; margin:16px 0;}
+.schema .liv{background:#fff; border:1px solid var(--gold); border-radius:8px; padding:10px 14px; font-size:.85rem;}
+.schema .liv b{color:var(--gold-deep); font-family:'Cormorant Garamond',serif; font-size:1.05rem;}
+.schema .terrazza{margin-left:calc(var(--i,0) * 10px); margin-right:calc(var(--i,0) * 10px);}
+footer{text-align:center; font-size:.78rem; color:var(--ink-soft); padding:20px; opacity:.75;}
+.two-col{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+@media(max-width:520px){.two-col{grid-template-columns:1fr;}}
+.progress{font-size:.78rem; color:var(--ink-soft); margin-bottom:10px;}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>Il Purgatorio di Dante</h1>
+  <p>Sei canti fondamentali · testo, parafrasi, commento, guida e verifica · IV Scienze Umane</p>
+</header>
+
+<nav class="tabs" id="tabs"></nav>
+
+<main id="main"></main>
+
+<footer>App didattica ad uso della classe — i link rimandano a portali istituzionali e progetti accademici dedicati a Dante.</footer>
+
+<script>
+const FONTI = [
+  {label:"Testo — Dante Online", url:"https://www.danteonline.it/", desc:"Società Dantesca Italiana / Biblioteca Italiana Telematica"},
+  {label:"Lecturae Dantis — Rai Cultura", url:"https://www.raicultura.it/", desc:"Letture e commenti audio/video dei maggiori dantisti"},
+  {label:"Parafrasi e commento — Dartmouth Dante Project", url:"https://dante.dartmouth.edu/", desc:"Dartmouth College (USA): database di oltre 70 commenti storici e moderni alla Commedia, in gran parte in lingua italiana, consultabili canto per canto"}
+];
+
+const CANTI = [
+{
+  id:"I", numero:"Canto I", titolo:"L'approdo alla spiaggia del Purgatorio",
+  badge:"Proemio della cantica",
+  protagonista:{
+    nome:"Catone Uticense",
+    scheda:[
+      "<b>Chi era storicamente:</b> Marco Porzio Catone (95-46 a.C.), politico e filosofo romano, strenuo difensore della Repubblica contro Cesare; si tolse la vita a Utica pur di non sottomettersi alla tirannide.",
+      "<b>Perché è pagano e vissuto prima di Cristo:</b> come Virgilio, morì secoli prima della Redenzione e non conobbe il battesimo né la fede cristiana.",
+      "<b>Perché è suicida:</b> il suicidio è punito nell'Inferno (selva dei suicidi, canto XIII), eppure Catone non vi si trova.",
+      "<b>Perché è comunque salvo, anzi custode del Purgatorio:</b> Dante lo colloca fuori dagli schemi consueti per il valore assoluto che attribuisce al suo gesto: non un atto di disperazione, ma il sacrificio supremo della vita in nome della libertà morale e politica, valore-chiave dell'intera cantica («libertà va cercando, ch'è sì cara»).",
+      "<b>Perché è il custode ideale:</b> a chi sale il monte del Purgatorio è richiesta esattamente la libertà della volontà da riconquistare passo dopo passo; Catone, che la libertà l'ha scelta fino al sacrificio di sé, ne è la guardia più coerente.",
+      "<b>Funzione nel canto:</b> impone il rito purificatore (lavare il viso, cingersi del giunco) e introduce, con la sua sola presenza, il tema della libertà come fine ultimo del cammino purgatoriale."
+    ]
+  },
+  guida:[
+    "Dante e Virgilio escono dall'Inferno «a riveder le stelle» e giungono su una spiaggia deserta ai piedi della montagna del Purgatorio.",
+    "Invocazione alle Muse e in particolare a Calliope: il registro poetico si fa più dolce rispetto all'Inferno.",
+    "Appare Catone Uticense, custode del Purgatorio: pagano suicida ma salvato, simbolo della libertà morale.",
+    "Virgilio spiega la missione dei due viaggiatori; Catone impone il rito di purificazione.",
+    "Il rito del giunco: Virgilio cinge Dante con un giunco, pianta umile e flessibile, simbolo di umiltà necessaria per salire.",
+    "Le quattro stelle mai viste (le virtù cardinali) e il pianeta Venere («lo bel pianeto che d'amor conforta») aprono la nuova ambientazione, luminosa e aperta, opposta alla cupezza infernale."
+  ],
+  quiz:[
+    ["Chi è il custode del Purgatorio nel canto I?",["Minosse","Catone Uticense","Caronte","Cerbero"],1],
+    ["Con quale espressione si chiude l'Inferno e si apre idealmente il Purgatorio?",["«Lasciate ogne speranza»","«A riveder le stelle»","«Nel mezzo del cammin»","«Per me si va»"],1],
+    ["A quale Musa si rivolge in particolare l'invocazione del canto I?",["Erato","Talia","Calliope","Euterpe"],2],
+    ["Perché Catone, pagano e suicida, si trova comunque in salvezza?",["Per intercessione di Beatrice","Per la sua scelta di libertà morale contro la tirannide","Per meriti militari","Per un errore di Minosse"],1],
+    ["Che cos'è il giunco con cui Virgilio cinge Dante?",["Un'arma simbolica","Simbolo di umiltà, pianta che si piega senza spezzarsi","Un talismano magico","Un dono di Catone alla moglie Marzia"],1],
+    ["Che cosa rappresentano le quattro stelle mai viste prima da Dante?",["Le quattro stagioni","Le virtù cardinali (prudenza, giustizia, fortezza, temperanza)","I quattro elementi","I quattro fiumi infernali"],1],
+    ["Quale pianeta illumina l'alba sulla spiaggia del Purgatorio?",["Marte","Giove","Venere","Saturno"],2],
+    ["Chi era Marzia, nominata da Virgilio a Catone?",["La figlia di Catone","La moglie di Catone","Una dea pagana","Un personaggio infernale"],1],
+    ["Come risponde Catone alla richiesta di Virgilio di far passare Dante?",["Rifiuta categoricamente","Accetta ma impone il rito purificatore","Chiede l'intervento di Dio","Si allontana senza rispondere"],1],
+    ["In che modo cambia il registro stilistico rispetto all'Inferno?",["Diventa più aspro e violento","Si fa più dolce, luminoso e disteso","Resta identico","Diventa comico"],1],
+    ["Che ora del giorno è quando i due poeti giungono sulla spiaggia?",["Il tramonto","La mezzanotte","L'alba","Il mezzogiorno"],2],
+    ["Perché Virgilio non può restare per sempre guida di Dante nel regno cristiano?",["Perché è pagano e non battezzato","Perché ha paura di Catone","Perché deve tornare nel Limbo subito","Perché lo decide Dante stesso"],0],
+    ["Cosa fa Dante appena lavato il viso, secondo il rito richiesto da Catone?",["Prega","Si veste di un mantello","Viene cinto del giunco","Piange"],2],
+    ["Qual è il tono con cui Catone si rivolge inizialmente ai due poeti?",["Accogliente e familiare","Severo e diffidente","Indifferente","Ironico"],1],
+    ["Come viene descritta la luce dell'alba nel canto?",["Cupa e rossastra","«Dolce color d'oriental zaffiro»","Bianca e accecante","Non viene descritta"],1],
+    ["Il Purgatorio, secondo il canto I, è descritto come il luogo dove...",["Le anime sono punite in eterno","L'anima umana si purga e diventa degna di salire al cielo","Le anime attendono il giudizio universale","Nessuna delle precedenti"],1],
+    ["Cosa simboleggia, sul piano allegorico, l'intero canto I rispetto al viaggio ultraterreno?",["La fine del viaggio","Una soglia di passaggio e rinascita morale","Un ritorno all'Inferno","Un episodio secondario"],1],
+    ["Perché Catone è scelto da Dante come custode, nonostante fosse pagano?",["Per la sua fama militare","Perché incarna l'amore per la libertà, valore centrale nel Purgatorio","Per la sua ricchezza","Per un legame di parentela con Dante"],1],
+    ["Cosa chiede Catone a Virgilio riguardo al modo in cui i due si presentano?",["Chi li ha guidati fin lì e come sono usciti dall'Inferno","Il loro nome di battesimo","La loro provenienza geografica","Nulla, li lascia passare subito"],0],
+    ["Qual è la funzione narrativa del canto I nell'economia dell'intera cantica?",["Proemio: apre la cantica e ne fissa temi e tono","Canto conclusivo","Digressione erudita","Racconto di un sogno"],0]
+  ]
+},
+{
+  id:"III", numero:"Canto III", titolo:"Manfredi e gli scomunicati pentiti",
+  badge:"Antipurgatorio",
+  protagonista:{
+    nome:"Manfredi di Svevia",
+    scheda:[
+      "<b>Chi era storicamente:</b> figlio naturale (poi legittimato) dell'imperatore Federico II, re di Sicilia dal 1258, capo della fazione ghibellina in Italia.",
+      "<b>Perché è scomunicato:</b> in perenne conflitto con il Papato per il controllo del Regno di Sicilia, fu scomunicato due volte; muore in battaglia contro Carlo d'Angiò, sostenuto dalla Chiesa, a Benevento nel 1266.",
+      "<b>Il destino del suo corpo:</b> per la scomunica gli fu negata la sepoltura in terra consacrata; secondo la tradizione riportata da Dante fu sepolto sotto un mucchio di pietre, poi il vescovo di Cosenza ne fece disperdere i resti fuori dal Regno.",
+      "<b>Perché Dante lo salva nonostante la scomunica:</b> Manfredi racconta di essersi pentito con le sue ultime lacrime prima di morire — un pentimento intimo e sincero che, per Dante, vale più di qualunque sentenza ecclesiastica.",
+      "<b>Significato del personaggio:</b> incarna il principio secondo cui la misericordia divina supera il giudizio degli uomini, anche quando questo giudizio viene dalla Chiesa; è inoltre, per simpatia politica di Dante verso i ghibellini, un caso scelto non a caso.",
+      "<b>Funzione nel canto:</b> apre la sezione degli scomunicati pentiti e introduce il tema, ricorrente nell'Antipurgatorio, della preghiera dei vivi come aiuto concreto ai morti in attesa."
+    ]
+  },
+  guida:[
+    "Dante nota che solo la sua ombra si proietta a terra: le anime, prive di corpo, non ne hanno; Virgilio spiega la natura dei corpi aerei.",
+    "I due incontrano il gruppo degli scomunicati, morti fuori dalla comunione della Chiesa ma pentiti in punto di morte.",
+    "Manfredi di Svevia, re di Sicilia scomunicato e sconfitto a Benevento, si presenta a Dante e ne racconta la fine.",
+    "Manfredi rivela di essersi pentito con le sue ultime lacrime, salvandosi: «orribil furon li peccati miei; ma la bontà infinita ha sì gran braccia».",
+    "Tema centrale: la misericordia divina supera ogni scomunica terrena, purché vi sia pentimento sincero, anche estremo.",
+    "Manfredi chiede a Dante di informare la figlia Costanza, per accorciare — tramite preghiere dei vivi — la lunga attesa degli scomunicati nell'Antipurgatorio."
+  ],
+  quiz:[
+    ["Cosa nota Dante che lo distingue dalle anime che incontra?",["Il colore della veste","La propria ombra proiettata a terra","La voce","Il passo"],1],
+    ["Chi è Manfredi di Svevia?",["Un imperatore romano","Re di Sicilia, figlio di Federico II, scomunicato","Un vescovo","Un poeta provenzale"],1],
+    ["In quale battaglia muore Manfredi?",["Campaldino","Benevento","Montaperti","Legnano"],1],
+    ["Perché Manfredi si trova nell'Antipurgatorio e non all'Inferno?",["Perché non ha mai peccato","Perché si è pentito sinceramente in punto di morte","Perché era protetto dal Papa","Per un errore di Minosse"],1],
+    ["Come viene descritto il pentimento di Manfredi?",["Tardivo ma sincero, «con le lacrime» finali","Falso e interessato","Assente","Pubblico e teatrale"],0],
+    ["Qual è la celebre affermazione di Manfredi sulla misericordia divina?",["«Lasciate ogne speranza»","«La bontà infinita ha sì gran braccia»","«Fatti non foste a viver come bruti»","«Amor, ch'a nullo amato amar perdona»"],1],
+    ["Chi sono gli «scomunicati» incontrati nel canto III?",["Anime dannate per sempre","Anime morte fuori dalla Chiesa ma pentite, in attesa nell'Antipurgatorio","Anime già in Paradiso","Ignavi"],1],
+    ["Che cosa chiede Manfredi a Dante riguardo alla figlia Costanza?",["Di vendicarlo","Di informarla della sua sorte per farla pregare per lui","Di sposarla a un nobile","Nulla"],1],
+    ["Qual è la funzione delle preghiere dei vivi per gli scomunicati pentiti, secondo il canto?",["Nessuna, il tempo è fisso","Possono abbreviare l'attesa nell'Antipurgatorio","Li fanno tornare in vita","Li dannano ulteriormente"],1],
+    ["Come reagisce Virgilio quando scopre di non proiettare ombra?",["Con indifferenza","Con un moto di vergogna e imbarazzo, subito rassicurato da Dante","Con rabbia","Non se ne accorge"],1],
+    ["Qual è il corpo delle anime secondo la spiegazione dottrinale di Virgilio?",["Un corpo reale identico a quello terreno","Un «corpo aereo», apparenza che permette di sentire dolore e emozioni","Nessun corpo, pura voce","Un corpo di luce"],1],
+    ["Che ruolo ha la Chiesa medievale nella vicenda di Manfredi?",["Lo scomunica dopo la morte per motivi politici","Lo canonizza","Lo ignora","Lo perdona ufficialmente"],0],
+    ["Qual è il tema teologico-morale dominante del canto III?",["La vendetta divina","Il primato della misericordia sulla giustizia umana e istituzionale","La superiorità dell'Impero sulla Chiesa","L'inutilità della preghiera"],1],
+    ["Manfredi appartiene a quale gruppo di anime nell'Antipurgatorio?",["I negligenti per pigrizia","Gli scomunicati pentiti in extremis","I principi negligenti","I pigri"],1],
+    ["Come si presenta fisicamente Manfredi a Dante?",["Con una ferita visibile sul volto","Biondo, bello, ma sfigurato da una ferita","Vecchio e curvo","Non viene descritto"],1],
+    ["Cosa simboleggia, sul piano dottrinale, la lunga attesa di Manfredi nell'Antipurgatorio?",["La condanna eterna","Il tempo dilatato per chi si converte solo alla fine della vita","Un errore divino","La punizione per l'eresia"],1],
+    ["Quale contrasto emerge tra la scomunica terrena e la sorte ultraterrena di Manfredi?",["Coincidono perfettamente","La Chiesa lo condanna, ma Dio lo accoglie per il pentimento","Nessun contrasto","Dante nega la scomunica"],1],
+    ["Perché Dante sceglie proprio Manfredi come esempio in questo canto?",["Per motivi politici legati ai ghibellini e per esaltare la misericordia divina oltre le sentenze umane","Per pura casualità","Perché era un poeta famoso","Perché era un parente di Dante"],0],
+    ["Cosa intende Manfredi dicendo che i suoi peccati furono «orribili»?",["Che nega la propria colpa","Che riconosce pienamente le proprie colpe, pur confidando nella grazia","Che accusa la Chiesa","Che si riferisce a Virgilio"],1],
+    ["Qual è l'insegnamento morale che il canto III offre al lettore medievale e non solo?",["Nessuno può salvarsi senza il sacramento della confessione formale","Anche un pentimento estremo e interiore può bastare alla misericordia di Dio","La scomunica è sempre irrevocabile","Solo i santi si salvano"],1]
+  ]
+},
+{
+  id:"V", numero:"Canto V", titolo:"Iacopo del Cassero, Bonconte da Montefeltro, Pia de' Tolomei",
+  badge:"Antipurgatorio — morti per violenza",
+  protagonista:{
+    nome:"Tre casi paralleli di morte violenta",
+    scheda:[
+      "<b>Iacopo del Cassero:</b> podestà bolognese di parte guelfa, fu assassinato nel 1298 per vendetta politica da sicari mandati da Azzo VIII d'Este mentre fuggiva verso Milano; pentito negli ultimi istanti, apre la serie.",
+      "<b>Bonconte da Montefeltro — chi era:</b> figlio del celebre Guido da Montefeltro (dannato nell'Inferno XXVII), capitano ghibellino, morto combattendo nella battaglia di Campaldino (1289) contro i guelfi fiorentini, la stessa battaglia a cui partecipò Dante.",
+      "<b>Perché il suo corpo scompare:</b> ferito a morte, invoca il nome di Maria col fiato che gli resta; un diavolo, furioso per avergli sottratto l'anima, scatena una tempesta che travolge il cadavere nel fiume Archiano, disperdendolo per sempre — da qui l'assenza di sepoltura e di memoria terrena.",
+      "<b>Perché è un caso-limite del pentimento:</b> a differenza del padre Guido (dannato per un pentimento giudicato insufficiente e tardivo), Bonconte si salva con un pentimento minimo ma autentico, contrapposto volutamente al destino paterno.",
+      "<b>Pia de' Tolomei — chi era:</b> gentildonna senese della famiglia Tolomei, andata in sposa a un membro della famiglia Malavolti (o, secondo altre fonti, dei Tolomei stessi); la tradizione, non confermata da Dante in modo esplicito, vuole che sia stata fatta uccidere dal marito in un castello della Maremma.",
+      "<b>Perché è ricordata per la sua discrezione:</b> a differenza degli altri due, non racconta la propria storia ma la allude appena, chiedendo solo di essere ricordata: «Siena mi fé, disfecemi Maremma» — pudore e mitezza sono la sua cifra."
+    ]
+  },
+  guida:[
+    "Terzo gruppo di anime negligenti: i morti di morte violenta, pentiti solo all'ultimo istante di vita.",
+    "Iacopo del Cassero racconta il proprio agguato mortale, ucciso per motivi politici mentre fuggiva verso Venezia.",
+    "Bonconte da Montefeltro narra la propria morte nella battaglia di Campaldino (1289, la stessa a cui Dante partecipò): il corpo disperso, l'anima salvata da una sola lacrima di pentimento.",
+    "Contrasto drammatico tra angelo e diavolo per il possesso dell'anima di Bonconte: vince l'angelo per il pentimento sincero, il diavolo si vendica scatenando una tempesta sul cadavere.",
+    "Pia de' Tolomei, gentile e discreta, chiede solo di essere ricordata: «Siena mi fé, disfecemi Maremma», probabile allusione a un omicidio domestico mai chiarito.",
+    "Il canto insiste sul valore salvifico di un pentimento anche minimo e istantaneo, e sul desiderio delle anime di essere ricordate dai vivi."
+  ],
+  quiz:[
+    ["A quale categoria di anime appartengono i personaggi del canto V?",["I superbi","I negligenti morti di morte violenta, pentiti all'ultimo istante","Gli invidiosi","I golosi"],1],
+    ["Chi è Iacopo del Cassero?",["Un poeta bolognese","Un politico ucciso in un agguato mentre fuggiva","Un cavaliere francese","Un vescovo"],1],
+    ["In quale battaglia muore Bonconte da Montefeltro?",["Montaperti","Campaldino","Legnano","Benevento"],1],
+    ["Cosa salva l'anima di Bonconte all'ultimo istante?",["Una preghiera pubblica","Una sola lacrima di pentimento invocando il nome di Maria","L'intervento di un santo","Nulla, è dannato"],1],
+    ["Chi si contende l'anima di Bonconte dopo la morte?",["Due angeli","Un angelo e un diavolo","Due diavoli","Caronte e Minosse"],1],
+    ["Come si vendica il diavolo sconfitto per l'anima di Bonconte?",["Dannando comunque l'anima","Scatenando una tempesta che disperde il cadavere nel fiume Archiano","Uccidendo un altro soldato","Non si vendica"],1],
+    ["Chi è Pia de' Tolomei?",["Una santa senese","Una nobildonna senese, probabile vittima di omicidio domestico","Una regina francese","Una monaca fiorentina"],1],
+    ["Quale celebre verso pronuncia Pia de' Tolomei?",["«Fatti non foste a viver come bruti»","«Siena mi fé, disfecemi Maremma»","«Amor che move il sole e l'altre stelle»","«Lasciate ogne speranza»"],1],
+    ["Cosa accomuna le tre anime incontrate nel canto V?",["Sono tutte religiose","Sono morte di morte violenta ma si sono pentite in punto di morte","Sono tutte fiorentine","Nessuna relazione"],1],
+    ["Che cosa chiede Pia de' Tolomei a Dante?",["Vendetta","Di essere ricordata al mondo dei vivi","Denaro per la famiglia","Nulla"],1],
+    ["Qual è il tono con cui parla Pia, secondo l'interpretazione tradizionale?",["Aggressivo e vendicativo","Dolce, discreto e rassegnato","Ironico","Indifferente"],1],
+    ["Perché queste anime si trovano ancora nell'Antipurgatorio e non già sulle cornici?",["Per punizione più severa","Per la negligenza: si sono pentite solo alla fine della vita","Per errore divino","Perché sono pagane"],1],
+    ["Cosa rappresenta, sul piano teologico, l'episodio di Bonconte?",["L'inutilità del pentimento tardivo","La potenza salvifica anche di un pentimento minimo e sincero","La superiorità del diavolo","La dannazione certa dei soldati"],1],
+    ["Con quale fiume è associata la dispersione del corpo di Bonconte?",["L'Arno","L'Archiano","Il Tevere","Il Po"],1],
+    ["Cosa lega biograficamente Dante alla battaglia di Campaldino?",["Nulla","Dante vi partecipò come soldato fiorentino","Dante la descrisse solo per sentito dire","Era un evento immaginario"],1],
+    ["Quale figura religiosa invoca Bonconte prima di morire?",["Cristo","La Vergine Maria","San Pietro","San Francesco"],1],
+    ["Che cosa intende Pia con l'allusione a Siena e alla Maremma?",["La sua nascita a Siena e la sua morte, forse per mano del marito, in Maremma","Un viaggio turistico","Un pellegrinaggio religioso","Una battaglia"],0],
+    ["Qual è il registro stilistico dominante nell'episodio di Pia?",["Enfatico e retorico","Sobrio, delicato, quasi sussurrato","Comico","Violento"],1],
+    ["Perché il canto V insiste sul tema del ricordo terreno?",["Perché le anime dell'Antipurgatorio dipendono in parte dalle preghiere e dalla memoria dei vivi","Per pura cortesia letteraria","Perché vogliono essere famose","Nessun motivo particolare"],0],
+    ["Qual è il messaggio morale complessivo che emerge dai tre episodi del canto V?",["Solo i santi si salvano","Anche un pentimento estremo, all'ultimo respiro, può bastare alla misericordia divina","La violenza è sempre punita all'Inferno","Il perdono è impossibile"],1]
+  ]
+},
+{
+  id:"VI", numero:"Canto VI", titolo:"Sordello e l'invettiva contro l'Italia",
+  badge:"Antipurgatorio — Valletta dei Principi",
+  protagonista:{
+    nome:"Sordello da Goito",
+    scheda:[
+      "<b>Chi era storicamente:</b> poeta e trovatore mantovano vissuto nel XIII secolo, attivo presso varie corti signorili italiane e provenzali; scrisse soprattutto in lingua occitana, componendo anche un celebre <i>compianto</i> funebre per la morte di un signore provenzale.",
+      "<b>Perché appartiene ai «principi negligenti»:</b> pur non essendo un principe in senso stretto, è collocato tra le anime che si dedicarono troppo alle cure e agli intrighi del potere politico, trascurando la cura di sé fino a tarda età.",
+      "<b>Il gesto che lo caratterizza:</b> riconosce Virgilio come concittadino mantovano al solo sentirne pronunciare il nome della patria, e lo abbraccia con un trasporto affettivo che Dante sottolinea con enfasi, in netto contrasto con le divisioni politiche italiane appena evocate.",
+      "<b>Perché Dante lo sceglie come cerniera dell'invettiva:</b> l'amore istintivo e immediato tra due «conterranei», al di là di ogni fazione, fa da contrappunto polemico alla disgregazione politica dell'Italia, dilaniata da guelfi e ghibellini, di cui Dante parla subito dopo.",
+      "<b>Funzione narrativa ulteriore:</b> diventa per un tratto guida aggiuntiva di Dante e Virgilio nella Valletta dei Principi, presentando loro i grandi sovrani europei negligenti riuniti in quel luogo.",
+      "<b>Eredità del personaggio:</b> Sordello sarà ripreso da poeti successivi (celebre la sua presenza nei <i>Cantos</i> di Ezra Pound) proprio a partire dall'immagine dantesca dell'incontro commosso con Virgilio."
+    ]
+  },
+  guida:[
+    "Dante paragona ironicamente la calca di anime che lo attorniano a un tavolo da gioco dopo la zara (dado): tutti vogliono la sua intercessione presso i vivi.",
+    "Incontro con Sordello da Goito, poeta e trovatore mantovano, che riconosce in Virgilio il concittadino e lo abbraccia con affetto.",
+    "Il gesto di Sordello introduce la celebre invettiva politica di Dante contro l'Italia, definita «serva» e «nave sanza nocchiere in gran tempesta».",
+    "Dante accusa la classe dirigente, l'assenza di un potere imperiale forte, il conflitto tra guelfi e ghibellini, la corruzione dei Comuni.",
+    "Duro attacco anche contro la Chiesa, colpevole di essersi ingerita nel potere temporale invece di occuparsi solo di quello spirituale.",
+    "Chiusa amaramente ironica su Firenze, la propria città, definita sarcasticamente «giusta e sana» per antifrasi, elencandone i disordini politici."
+  ],
+  quiz:[
+    ["A cosa paragona Dante la calca di anime che lo circondano all'inizio del canto?",["A un mercato","A un tavolo da gioco dopo la zara","A una processione religiosa","A un esercito"],1],
+    ["Chi è Sordello?",["Un imperatore","Un poeta e trovatore mantovano","Un vescovo fiorentino","Un cavaliere francese"],1],
+    ["Perché Sordello abbraccia con affetto Virgilio?",["Perché è un parente","Perché riconosce in lui il concittadino mantovano","Perché lo ha salvato","Per educazione formale"],1],
+    ["Con quali parole Dante apostrofa l'Italia nella celebre invettiva?",["«Italia mia, benché 'l parlar sia indarno»","«Ahi serva Italia, di dolore ostello»","«O patria mia, vedo le mura e li archi»","«Fiorenza mia, tu pur mi fai pensare»"],1],
+    ["A cosa viene paragonata l'Italia priva di guida politica?",["A un giardino incolto","A una «nave sanza nocchiere in gran tempesta»","A un tempio abbandonato","A un fiume in secca"],1],
+    ["Quale istituzione accusa Dante di essersi impropriamente occupata del potere temporale?",["L'Impero","La Chiesa","I Comuni","La nobiltà feudale"],1],
+    ["Quali fazioni politiche vengono richiamate come cause di divisione?",["Guelfi e ghibellini","Normanni e Sassoni","Patrizi e plebei","Angioini e Aragonesi"],0],
+    ["Che tono usa Dante nel parlare di Firenze alla fine del canto?",["Elogiativo sincero","Sarcastico e amaramente ironico","Neutro","Indifferente"],1],
+    ["Cosa rimprovera Dante all'Imperatore (Alberto d'Asburgo) in questo canto?",["Di essere troppo severo","Di trascurare l'Italia, «giardino de lo 'mperio», per altri interessi","Di essere troppo generoso","Di aver abolito l'Impero"],1],
+    ["Qual è la funzione narrativa dell'incontro con Sordello?",["Introdurre un episodio comico","Fare da cerniera verso la riflessione politica sull'Italia","Concludere l'Antipurgatorio","Presentare un nuovo peccato"],1],
+    ["In quale luogo dell'Antipurgatorio si trovano le anime incontrate nel canto VI, i «principi negligenti»?",["Sulla spiaggia","Nella Valletta dei Principi","Sulla vetta del monte","Alla Porta del Purgatorio"],1],
+    ["Perché queste anime sono definite «negligenti»?",["Per pigrizia fisica","Per essersi occupate troppo tardi della cura della propria anima, distratte dal potere politico","Per ignoranza religiosa","Per motivi economici"],1],
+    ["Che valore ha, nell'invettiva, il riferimento a Roma antica?",["Nessuno","Modello di ordine perduto rispetto al presente caos italiano","Un esempio negativo","Un riferimento mitologico senza peso politico"],1],
+    ["Qual è l'accusa principale mossa ai Comuni italiani nel canto VI?",["Sono troppo ricchi","Continue lotte intestine e instabilità delle leggi e dei governi","Sono troppo pacifici","Non pagano le tasse"],1],
+    ["Come definisce Dante, con dura ironia, i cittadini fiorentini nel passo finale?",["Saggi e pazienti","Pronti a cambiare leggi, monete e uffici con leggerezza dannosa","Fedeli custodi della tradizione","Del tutto innocenti"],1],
+    ["Qual è il rapporto tematico tra il canto VI del Purgatorio e il canto VI dell'Inferno (Ciacco) e del Paradiso (Giustiniano)?",["Nessuno, sono scollegati","Tutti e tre i «canti VI» affrontano temi politici, secondo una struttura numerica ricorrente nella Commedia","Sono identici","Parlano solo di temi religiosi"],1],
+    ["Che ruolo ha Sordello nel prosieguo del viaggio nel Purgatorio?",["Scompare subito","Diventa per un tratto guida aggiuntiva di Dante e Virgilio","Diventa un demone","Sostituisce Virgilio definitivamente"],1],
+    ["Qual è il senso allegorico della «nave sanza nocchiere»?",["L'assenza di autorità e guida politica in Italia","Un riferimento a un naufragio reale","Un'allegoria della Chiesa","Un'allegoria della povertà"],0],
+    ["In che modo il canto VI collega la sfera personale a quella politica?",["Non lo fa, resta solo personale","L'incontro affettivo tra due mantovani apre a una riflessione universale sull'assenza di concordia in Italia","Resta solo un episodio politico astratto","Nega ogni legame tra le due sfere"],1],
+    ["Qual è l'eredità culturale principale del canto VI nella tradizione italiana?",["È rimasto sconosciuto","L'invettiva «Ahi serva Italia» è divenuta un topos della riflessione sull'unità e i mali d'Italia","Non ha avuto alcuna eredità","È stato censurato per secoli"],1]
+  ]
+},
+{
+  id:"XI", numero:"Canto XI", titolo:"La cornice dei superbi e Oderisi da Gubbio",
+  badge:"Prima cornice — la superbia",
+  protagonista:{
+    nome:"Oderisi da Gubbio",
+    scheda:[
+      "<b>Chi era storicamente:</b> celebre miniatore attivo tra Bologna e Roma nella seconda metà del Duecento, ricordato dalle fonti dell'epoca come uno dei massimi «alluminatori» di codici miniati.",
+      "<b>Perché è tra i superbi:</b> in vita fu dominato dall'orgoglio per la propria eccellenza artistica e dal desiderio di superare i rivali, vizio tipico di chi lega il proprio valore al giudizio e alla fama tra gli uomini.",
+      "<b>La sua confessione:</b> riconosce di essere stato superato nella fama da Franco Bolognese, così come Cimabue fu superato da Giotto: un esempio concreto tratto dal mondo dell'arte, ben noto al pubblico di Dante.",
+      "<b>Perché è la voce ideale sulla vanità della gloria:</b> proprio perché fu lui stesso vittima della propria vanagloria, la sua riflessione sulla caducità della fama (la similitudine dell'erba che nasce e appassisce in un giorno) acquista particolare autorità e credibilità.",
+      "<b>Il sospetto di una velata autocelebrazione dantesca:</b> quando Oderisi allude a chi supererà sia Guido Guinizzelli sia Guido Cavalcanti nella poesia, molti commentatori vi leggono un'allusione, sottilmente orgogliosa, allo stesso Dante — ironia sottile in un canto dedicato proprio alla superbia.",
+      "<b>Funzione nel canto:</b> introduce anche la figura di Provenzan Salvani, esempio complementare di superbia politica redenta da un atto di pubblica umiltà."
+    ]
+  },
+  guida:[
+    "Le anime dei superbi camminano curve sotto il peso di massi, mentre recitano una versione ampliata e adattata del Padre Nostro.",
+    "La preghiera collettiva chiede a Dio perdono per sé e intercessione per i vivi ancora esposti alla tentazione della superbia.",
+    "Dante incontra Oderisi da Gubbio, celebre miniatore, che si mostra pentito della propria vanagloria artistica.",
+    "Oderisi svolge la grande riflessione sulla caducità della fama terrena: Cimabue superato da Giotto, Guido Guinizzelli da Guido Cavalcanti, e forse presto anche da un «altro» (allusione a Dante stesso).",
+    "Celebre similitudine dell'erba che nasce e appassisce in un giorno solo: immagine della vanità della gloria umana.",
+    "Oderisi indica anche Provenzan Salvani, esempio di superbia politica poi redenta da un atto di umiltà pubblica."
+  ],
+  quiz:[
+    ["Qual è il peccato purgato nella cornice descritta nel canto XI?",["L'ira","La superbia","La gola","L'accidia"],1],
+    ["Come sono fisicamente le anime dei superbi?",["Leggere e danzanti","Curve sotto il peso di massi","Invisibili","Incatenate"],1],
+    ["Quale preghiera recitano collettivamente le anime superbe?",["L'Ave Maria","Una parafrasi ampliata del Padre Nostro","Il Credo","Un salmo penitenziale generico"],1],
+    ["Chi è Oderisi da Gubbio?",["Un poeta","Un celebre miniatore pentito della propria vanagloria","Un politico","Un musicista"],1],
+    ["Quale grande pittore, secondo Oderisi, ha superato la fama di Cimabue?",["Giotto","Simone Martini","Duccio di Buoninsegna","Masaccio"],0],
+    ["Quale coppia di poeti viene citata come esempio di gloria letteraria effimera?",["Dante e Virgilio","Guido Guinizzelli superato da Guido Cavalcanti","Petrarca e Boccaccio","Omero e Virgilio"],1],
+    ["A cosa allude Oderisi quando dice che forse è già nato chi supererà entrambi i Guido?",["A un pittore","Probabilmente a Dante stesso, con velata autocelebrazione","A un musicista","A nessuno in particolare"],1],
+    ["Quale celebre similitudine usa Oderisi per la fama terrena?",["Il fiume che scorre","L'erba che nasce e appassisce in un solo giorno","La stella che non tramonta mai","La roccia che non si consuma"],1],
+    ["Chi è Provenzan Salvani, citato da Oderisi?",["Un pittore superbo","Un politico senese, esempio di superbia poi redenta da un gesto di umiltà","Un poeta fiorentino","Un imperatore"],1],
+    ["Quale gesto di umiltà pubblica compie Provenzan Salvani in vita, secondo il racconto?",["Si fa monaco","Si umilia in piazza per raccogliere denaro e liberare un amico prigioniero","Rinuncia al potere","Va in pellegrinaggio"],1],
+    ["Perché il gesto di Provenzan Salvani gli permette di evitare la lunga attesa dell'Antipurgatorio?",["Perché era ricco","Perché un atto di umiltà estrema compensa l'attesa altrimenti dovuta ai negligenti","Per intervento del Papa","Per un miracolo"],1],
+    ["Qual è il senso morale della riflessione di Oderisi sulla vanagloria artistica?",["L'arte è inutile","La fama terrena è effimera e non deve distogliere dalla cura dell'anima","Solo i grandi artisti si salvano","La superbia è un peccato veniale"],1],
+    ["Come si presenta fisicamente Oderisi a Dante, curvo sotto il masso?",["Con orgoglio residuo","Umiliato, a fatica lo riconosce Dante stesso","Sereno e leggero","Arrabbiato"],1],
+    ["Quale valore pedagogico ha, per Dante poeta, l'incontro con Oderisi?",["Nessuno","Una riflessione autocritica sul rischio della propria superbia artistica","Serve solo a lodare Oderisi","È un episodio puramente decorativo"],1],
+    ["Che rapporto esiste tra la pena fisica (il peso dei massi) e la colpa dei superbi?",["Nessun rapporto (contrappasso assente)","Contrappasso per analogia: il peso concreto rappresenta il peso morale della superbia portata in vita","Punizione casuale","È identico a quello infernale"],1],
+    ["In che punto della cantica si colloca il canto XI rispetto alla struttura delle cornici?",["Nell'Antipurgatorio","Nella prima cornice, quella dei superbi, appena oltrepassata la Porta del Purgatorio","Nell'ultima cornice","Nel Paradiso Terrestre"],1],
+    ["Cosa distingue la preghiera dei superbi da una recita meccanica?",["È recitata per il bene proprio e per i vivi ancora in pericolo di peccare","Non ha alcun significato","È imposta senza consapevolezza","Riguarda solo la propria salvezza"],0],
+    ["Qual è l'ironia implicita nella citazione dei due Guido da parte di Oderisi?",["Nessuna ironia, è un elogio semplice","Un pittore già pentito della vanagloria continua comunque a ragionare sulla gloria letteraria altrui","È un attacco a Dante","Non riguarda la poesia"],1],
+    ["Quale lezione universale, oltre l'ambito artistico, offre il canto XI?",["Solo gli artisti devono temere la superbia","Ogni forma di orgoglio per i propri meriti terreni è destinata a svanire nel tempo","La superbia non è un vizio capitale","Il successo terreno garantisce la salvezza"],1],
+    ["Perché Dante inserisce proprio dei nomi di artisti e politici contemporanei nella cornice della superbia?",["Per pura cronaca","Per rendere concreta e attuale la riflessione morale, legandola a casi noti al suo pubblico","Per motivi di rima","Per errore"],1]
+  ]
+},
+{
+  id:"XXX", numero:"Canto XXX", titolo:"La scomparsa di Virgilio e l'arrivo di Beatrice",
+  badge:"Paradiso Terrestre",
+  protagonista:{
+    nome:"Beatrice (e il congedo di Virgilio)",
+    scheda:[
+      "<b>Chi era per Dante:</b> Beatrice Portinari, donna fiorentina realmente esistita, amata da Dante e celebrata già nella <i>Vita nuova</i> come tramite tra l'amore terreno e quello divino; morta giovane nel 1290.",
+      "<b>Il suo ruolo allegorico nella Commedia:</b> è figura della teologia e della grazia rivelata, guida necessaria oltre i limiti della sola ragione umana rappresentata da Virgilio; per questo può condurre Dante fin dentro il Paradiso, dove Virgilio non può accedere.",
+      "<b>Perché appare solo ora, dopo un lungo silenzio:</b> il suo arrivo è preparato da un'intera processione allegorica (candelabri, ventiquattro seniori, animali simbolici) che ne sottolinea la sacralità e l'attesa.",
+      "<b>Perché rimprovera Dante invece di accoglierlo con dolcezza:</b> la sua funzione non è consolare ma guidare a una conversione piena e consapevole; il rimprovero pubblico, davanti agli angeli, costringe Dante a riconoscere apertamente i propri traviamenti dopo la morte di lei.",
+      "<b>Virgilio — perché scompare proprio qui:</b> pagano non battezzato, incarna la ragione umana, che può condurre l'uomo fino alla soglia della felicità terrena (il Paradiso Terrestre) ma non oltre; il suo commiato silenzioso, senza un saluto, è tra i passaggi più commoventi della cantica.",
+      "<b>Il legame tra i due:</b> la scomparsa di Virgilio e l'arrivo di Beatrice avvengono nello stesso istante, a segnare simbolicamente il passaggio di consegne tra ragione e grazia nel cammino di Dante verso Dio."
+    ]
+  },
+  guida:[
+    "Nel Paradiso Terrestre si compie la processione mistica: sul carro trionfale appare, velata di bianco e cinta d'ulivo, Beatrice.",
+    "Dante, riconoscendo «i segni dell'antica fiamma» (citazione dall'Eneide di Virgilio), si volge per condividere l'emozione con la guida — ma Virgilio è scomparso.",
+    "Il pianto di Dante per la perdita di Virgilio viene subito interrotto da Beatrice, che lo chiama per nome (unica volta in tutta la Commedia) e lo rimprovera duramente.",
+    "Beatrice non lo accoglie con dolcezza, ma con severità: rimprovera Dante per essersi allontanato dalla retta via dopo la sua morte.",
+    "Il rimprovero pubblico, davanti agli angeli, sottolinea che la vera purificazione richiede consapevolezza piena della propria colpa, non solo commozione.",
+    "Passaggio di consegne simbolico: Virgilio (ragione umana) esce di scena proprio quando Beatrice (grazia rivelata, teologia) prende il suo posto come guida di Dante."
+  ],
+  quiz:[
+    ["Dove si svolge la scena centrale del canto XXX?",["Sulla spiaggia dell'Antipurgatorio","Nel Paradiso Terrestre, in cima alla montagna","Nella Valletta dei Principi","Alla Porta del Purgatorio"],1],
+    ["Come appare Beatrice quando arriva sul carro?",["Vestita di nero, in lutto","Velata di bianco e cinta d'ulivo","Armata come un guerriero","Invisibile"],1],
+    ["Quale celebre citazione virgiliana (dall'Eneide) riecheggia Dante nel riconoscere Beatrice?",["«Timeo Danaos»","«Conosco i segni dell'antica fiamma»","«Arma virumque cano»","«Sunt lacrimae rerum»"],1],
+    ["Cosa scopre Dante appena si volge verso Virgilio per condividere l'emozione?",["Che Virgilio è felice per lui","Che Virgilio è scomparso","Che Virgilio piange","Che Virgilio lo rimprovera"],1],
+    ["Quale reazione ha Dante alla scomparsa di Virgilio?",["Indifferenza","Un pianto dirotto, subito interrotto da Beatrice","Rabbia verso Beatrice","Gioia"],1],
+    ["Con quale parola Beatrice si rivolge a Dante, unica occorrenza in tutta la Commedia?",["Il suo cognome","Il suo nome proprio, «Dante»","Un titolo onorifico","Nessuna parola, resta muta"],1],
+    ["Qual è il tono con cui Beatrice accoglie Dante?",["Dolce e materno","Severo, quasi un rimprovero pubblico","Indifferente","Ironico e leggero"],1],
+    ["Di cosa rimprovera Beatrice Dante?",["Di essere arrivato in ritardo","Di essersi allontanato dalla retta via dopo la sua morte","Di aver tradito Virgilio","Di non aver scritto abbastanza poesie"],1],
+    ["Perché il rimprovero di Beatrice avviene pubblicamente, davanti agli angeli?",["Per casualità","Perché la vera purificazione richiede piena e consapevole ammissione di colpa","Per umiliare Dante senza motivo","Per abitudine cerimoniale priva di significato"],1],
+    ["Cosa rappresenta simbolicamente l'uscita di scena di Virgilio proprio in questo canto?",["La fine del viaggio di Dante","Il limite della ragione umana, che deve cedere il passo alla grazia rivelata","Un errore narrativo","La sconfitta di Virgilio"],1],
+    ["Cosa rappresenta invece l'arrivo di Beatrice sul piano allegorico?",["La sola bellezza femminile","La teologia, la grazia rivelata, guida necessaria oltre la ragione","La musica","La giustizia terrena"],1],
+    ["In quale opera latina compare l'espressione richiamata da Dante sui «segni dell'antica fiamma»?",["Le Metamorfosi di Ovidio","L'Eneide di Virgilio","Le Bucoliche","La Farsaglia di Lucano"],1],
+    ["Qual è la reazione degli angeli presenti alla scena?",["Restano indifferenti","Intonano un canto, mostrando pietà per il pianto di Dante","Ridono di Dante","Se ne vanno"],1],
+    ["Perché la scomparsa di Virgilio è resa ancora più dolorosa dal contesto?",["Avviene proprio nel momento di massima gioia attesa, quello del ricongiungimento con Beatrice","Avviene all'Inferno","Avviene senza alcun preavviso narrativo diverso dal solito","Non è dolorosa, è un sollievo"],0],
+    ["Che valore ha, nel canto XXX, il fatto che Beatrice non consoli subito Dante?",["Segna il passaggio da una guida umana e compassionevole a un percorso di purificazione più esigente e consapevole","Nessun valore particolare","È solo un capriccio del personaggio","Serve a creare suspense"],0],
+    ["Come viene descritto l'arrivo del corteo mistico prima di Beatrice?",["In modo dimesso e silenzioso","Con grande solennità liturgica e simbolica (candelabri, ventiquattro seniori, animali simbolici)","Senza alcuna descrizione","In tono comico"],1],
+    ["Qual è la funzione strutturale del canto XXX nell'economia dell'intera cantica?",["È un canto secondario e trascurabile","Segna la svolta cruciale: fine della guida di Virgilio, inizio della guida di Beatrice verso il Paradiso","Conclude in modo neutro il Purgatorio","Introduce un nuovo peccato da espiare"],1],
+    ["In che senso il canto XXX unisce elementi classici e cristiani?",["Non li unisce affatto","Cita Virgilio (mondo classico) proprio nel momento dell'incontro con Beatrice, figura di rivelazione cristiana","Rifiuta ogni riferimento classico","Sostituisce Virgilio con una figura mitologica"],1],
+    ["Perché Beatrice può permettersi un rimprovero così duro nei confronti di Dante?",["Per crudeltà personale","Perché la sua funzione è guidarlo a una conversione piena, non solo a una commozione superficiale","Per gelosia verso Virgilio","Per capriccio"],1],
+    ["Qual è l'eredità letteraria e culturale di questo canto nella tradizione successiva?",["È rimasto un episodio minore e dimenticato","È considerato uno dei vertici emotivi e simbolici dell'intera Commedia","Non ha avuto alcuna influenza","È stato riscritto integralmente da altri autori"],1]
+  ]
+}
+];
+
+const SCHEMA = [
+  {t:"Paradiso Terrestre", d:"In vetta al monte: il Giardino dell'Eden, dove avviene l'incontro con Beatrice (canto XXX) e la fine della guida di Virgilio."},
+  {t:"VII cornice — Lussuriosi", d:"Purificati dal fuoco."},
+  {t:"VI cornice — Golosi", d:"Dimagriti, tra alberi dai frutti irraggiungibili."},
+  {t:"V cornice — Avari e prodighi", d:"Distesi a terra, volto rivolto in basso."},
+  {t:"IV cornice — Accidiosi", d:"In corsa continua, per espiare la lentezza nel bene."},
+  {t:"III cornice — Iracondi", d:"Avvolti da un fumo denso e acre."},
+  {t:"II cornice — Invidiosi", d:"Occhi cuciti con fili di ferro."},
+  {t:"I cornice — Superbi (canto XI)", d:"Curvi sotto massi di pietra."},
+  {t:"Porta del Purgatorio", d:"Le tre scale, l'angelo con le sette P incise sulla fronte di Dante, una per ogni peccato capitale."},
+  {t:"Valletta dei Principi (canto VI)", d:"Sordello e i principi negligenti, distratti dagli affari politici."},
+  {t:"Antipurgatorio — scomunicati (canto III)", d:"Manfredi e i pentiti in punto di morte dopo scomunica."},
+  {t:"Antipurgatorio — morti violente (canto V)", d:"Iacopo del Cassero, Bonconte, Pia de' Tolomei."},
+  {t:"Spiaggia del Purgatorio (canto I)", d:"Approdo, Catone, il rito del giunco."}
+];
+
+let current = "presentazione";
+
+function tabsHTML(){
+  const items = [["presentazione","Presentazione"],["schema","Schema"], ...CANTI.map(c=>[c.id, c.numero])];
+  return items.map(([id,label])=>`<button data-tab="${id}" class="${id===current?'active':''}" onclick="showTab('${id}')">${label}</button>`).join("");
+}
+
+function fontiHTML(){
+  return `<div class="links3">${FONTI.map(f=>`<a href="${f.url}" target="_blank" rel="noopener" title="${f.desc}">${f.label}</a>`).join("")}</div>`;
+}
+
+const ROMANO_NUM = {I:1, III:3, V:5, VI:6, XI:11, XXX:30};
+
+function vademecumHTML(cantoId){
+  const n = cantoId ? ROMANO_NUM[cantoId] : null;
+  const stepCanto = n
+    ? `<li>In <b>«Canto (1-34)»</b> inserisci <b>${n}</b> (il canto ${cantoId} corrisponde al numero arabo ${n}).</li>`
+    : `<li>In <b>«Canto (1-34)»</b> inserisci il numero arabo del canto che ti interessa (es. Canto I → 1, Canto XXX → 30).</li>`;
+  return `
+  <div class="card">
+    <h3>Vademecum — come cercare un canto sul Dartmouth Dante Project</h3>
+    <ol class="guida">
+      <li>Apri <a href="https://dante.dartmouth.edu/" target="_blank" rel="noopener">dante.dartmouth.edu</a> e vai alla pagina <i>«Search the Commentaries»</i>.</li>
+      <li>Nel menu <b>«Language»</b> seleziona <b>Italian</b>, per avere i commenti in lingua italiana.</li>
+      <li>Nel menu <b>«Cantica»</b> seleziona <b>Purgatorio</b>.</li>
+      ${stepCanto}
+      <li>Lascia vuoto il campo <b>«Line (1-160)»</b> per leggere il commento all'intero canto, oppure inserisci un verso preciso se cerchi un passo specifico.</li>
+      <li>Nella lista <b>«Commentary»</b> scegli un commentatore: per iniziare, il commento di <b>Emilio Pasquini e Antonio Quaglio (1982)</b> è il più indicato per gli studenti, perché unisce una parafrasi chiara e puntuale a note essenziali; per approfondire restano ottimi anche <b>Umberto Bosco e Giovanni Reggio (1979)</b> e <b>Anna Maria Chiavacci Leonardi (1991-1997)</b>.</li>
+      <li>Premi <b>«Search»</b>: il sistema restituisce il testo del canto affiancato dal commento/parafrasi del curatore scelto.</li>
+    </ol>
+  </div>`;
+}
+
+function jumprowHTML(activeId){
+  return `<div class="jumprow">${CANTI.map(c=>`<button class="${c.id===activeId?'current':''}" onclick="showTab('${c.id}')">${c.numero}</button>`).join("")}</div>`;
+}
+
+function presentazioneHTML(){
+  return `
+  <section class="view active" id="view-presentazione">
+    <div class="card">
+      <span class="badge">Proemio della cantica</span>
+      <h2>Il Purgatorio: struttura e senso del viaggio</h2>
+      <p>Il Purgatorio è la seconda cantica della <i>Commedia</i>: un'isola-montagna nell'emisfero australe, sorta — secondo la geografia dantesca — dallo spostamento di terra causato dalla caduta di Lucifero. Qui le anime, già salve, espiano volontariamente le tracce dei peccati commessi in vita, in un percorso a tempo (dalla mattina di Pasqua 1300 in poi) scandito dal sorgere e tramontare del sole.</p>
+      <p>Rispetto all'Inferno, cambia radicalmente il registro: non più pena eterna e immutabile, ma un cammino di purificazione condiviso, fatto di speranza, canto, preghiera collettiva e progressiva leggerezza. La struttura è tripartita: <b>Antipurgatorio</b> (anime negligenti, in attesa), <b>sette cornici</b> corrispondenti ai vizi capitali, <b>Paradiso Terrestre</b> in vetta, luogo dell'incontro con Beatrice.</p>
+      <p>Questa app propone i sei canti più studiati e antologizzati della cantica, ciascuno con collegamento alle fonti, una scheda del protagonista, una scheda guida per la comprensione e venti quesiti di verifica con soluzione.</p>
+      <h3>Fonti istituzionali per il testo, la parafrasi e il commento</h3>
+      ${fontiHTML()}
+    </div>
+    ${vademecumHTML(null)}
+    <div class="card">
+      <h2>Il contrappasso nel Purgatorio: significato e durata delle pene</h2>
+      <p>Nell'Inferno il contrappasso è <b>per analogia o per contrasto</b> ed è <b>eterno e immutabile</b>: la pena riproduce o rovescia il peccato come condanna fissata per sempre, senza possibilità di redenzione. Nel Purgatorio il principio resta simile nella forma — ogni pena richiama ancora, per analogia, il vizio da cui si origina — ma cambia radicalmente nella <b>funzione</b> e nel <b>tempo</b>.</p>
+      <ul class="guida">
+        <li><b>Funzione pedagogica, non punitiva:</b> la pena non è vendetta divina ma cura dell'anima; è accettata e persino desiderata dai penitenti, che collaborano attivamente alla propria purificazione (pregano, si correggono a vicenda, si rallegrano dei progressi altrui).</li>
+        <li><b>Temporaneità:</b> ogni pena ha una durata limitata. Le anime salgono di cornice in cornice man mano che il vizio corrispondente è estirpato; ogni passaggio è segnato da un terremoto e da un canto di lode (il <i>Gloria in excelsis Deo</i>), festeggiato da tutta la montagna.</li>
+        <li><b>Contrappasso "per analogia" nelle cornici:</b> i superbi (canto XI) portano massi che li curvano, a imitare fisicamente il peso morale dell'orgoglio; gli invidiosi hanno le palpebre cucite, perché in vita non sopportavano di vedere il bene altrui; gli accidiosi corrono senza sosta, per compensare la lentezza nel bene; i golosi dimagriscono davanti a frutti irraggiungibili.</li>
+        <li><b>Attesa nell'Antipurgatorio:</b> i negligenti (scomunicati pentiti come Manfredi, morti di morte violenta come Bonconte e Pia, principi distratti dal potere come quelli della Valletta) devono attendere, prima di poter iniziare la vera purificazione, un tempo pari a quello in cui rimandarono il pentimento in vita — tempo che può essere abbreviato dalle preghiere dei vivi, come chiede Manfredi a Dante.</li>
+        <li><b>Fattori che accelerano o abbreviano la pena:</b> il pentimento sincero (anche tardivo, come per Bonconte), un singolo gesto di grande umiltà (Provenzan Salvani, canto XI) e soprattutto la preghiera di chi resta in vita, che crea un legame attivo tra i due mondi assente nell'Inferno.</li>
+        <li><b>Il traguardo finale:</b> una volta espiato l'ultimo vizio, l'anima riacquista la piena libertà della volontà ed è pronta ad ascendere al Paradiso Terrestre: è il momento, per Dante personaggio, dell'incontro con Beatrice (canto XXX).</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>I sei canti proposti</h3>
+      ${jumprowHTML(null)}
+    </div>
+  </section>`;
+}
+
+function schemaHTML(){
+  return `
+  <section class="view active" id="view-schema">
+    <div class="card">
+      <h2>Schema del Purgatorio</h2>
+      <p>Dal basso verso l'alto: la spiaggia d'approdo, l'Antipurgatorio, la Porta, le sette cornici dei vizi capitali, il Paradiso Terrestre.</p>
+      <div class="schema">
+        ${SCHEMA.map(s=>`<div class="liv"><b>${s.t}</b><br>${s.d}</div>`).join("")}
+      </div>
+    </div>
+  </section>`;
+}
+
+function cantoHTML(c){
+  return `
+  <section class="view active" id="view-${c.id}">
+    <div class="card">
+      <span class="badge">${c.badge}</span>
+      <h2>${c.numero} — ${c.titolo}</h2>
+      <h3>Fonti istituzionali</h3>
+      ${fontiHTML()}
+    </div>
+    ${vademecumHTML(c.id)}
+    <div class="card">
+      <h3>Scheda del protagonista — ${c.protagonista.nome}</h3>
+      <ul class="guida">${c.protagonista.scheda.map(g=>`<li>${g}</li>`).join("")}</ul>
+    </div>
+    <div class="card">
+      <h3>Scheda guida per la comprensione</h3>
+      <ul class="guida">${c.guida.map(g=>`<li>${g}</li>`).join("")}</ul>
+    </div>
+    <div class="card">
+      <h3>Verifica — 20 quesiti a risposta multipla</h3>
+      <div class="progress">Clicca un'opzione, poi "Mostra soluzione" per la spiegazione.</div>
+      <div id="quiz-${c.id}"></div>
+    </div>
+    <div class="card">
+      <h3>Naviga tra i canti</h3>
+      ${jumprowHTML(c.id)}
+    </div>
+  </section>`;
+}
+
+function renderQuiz(c){
+  const box = document.getElementById(`quiz-${c.id}`);
+  box.innerHTML = c.quiz.map((item,i)=>{
+    const [q,opts,correct] = item;
+    return `<div class="quiz-item">
+      <p class="q">${i+1}. ${q}</p>
+      <div class="opts" id="opts-${c.id}-${i}">
+        ${opts.map((o,j)=>`<div class="opt" onclick="selectOpt('${c.id}',${i},${j},${correct})">${String.fromCharCode(97+j)}) ${o}</div>`).join("")}
+      </div>
+      <button class="reveal-btn" onclick="toggleNote('${c.id}',${i})">Mostra soluzione</button>
+      <p class="note" id="note-${c.id}-${i}">Risposta corretta: <b>${String.fromCharCode(97+correct)}) ${opts[correct]}</b></p>
+    </div>`;
+  }).join("");
+}
+
+function selectOpt(cid,i,j,correct){
+  const opts = document.getElementById(`opts-${cid}-${i}`).children;
+  for(let k=0;k<opts.length;k++){opts[k].classList.remove('correct','wrong');}
+  if(j===correct){opts[j].classList.add('correct');}
+  else{opts[j].classList.add('wrong'); opts[correct].classList.add('correct');}
+}
+
+function toggleNote(cid,i){
+  document.getElementById(`note-${cid}-${i}`).classList.toggle('show');
+}
+
+function showTab(id){
+  current = id;
+  document.getElementById('tabs').innerHTML = tabsHTML();
+  const main = document.getElementById('main');
+  if(id==="presentazione"){ main.innerHTML = presentazioneHTML(); }
+  else if(id==="schema"){ main.innerHTML = schemaHTML(); }
+  else{
+    const c = CANTI.find(x=>x.id===id);
+    main.innerHTML = cantoHTML(c);
+    renderQuiz(c);
+  }
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+showTab("presentazione");
+</script>
+</body>
+</html>
